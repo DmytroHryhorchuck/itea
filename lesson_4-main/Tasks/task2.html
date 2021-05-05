@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Lesson 4 :: Task 2</title>
+
+    <link rel="stylesheet" href="css/normalize.css" />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div class="Templating">
+      <form>
+        <input type="range" id="width_input" min="10" max="500" step="10" />
+        <input type="range" id="height_input" min="10" max="500" step="10" />
+        <input type="range" id="border_input" min="10" max="500" step="10" />
+        <input type="range" id="padding_input" min="10" max="500" step="10" />
+        <input type="color" id="color_input" min="10" max="500" step="10" />
+      </form>
+
+      <div class="TemplatingResult">
+        <div id="result" class="result"></div>
+      </div>
+
+      <div id="popup">
+        <h2>Select a color:</h2>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+      </div>
+    </div>
+    <script>
+      /*
+		Задание 2.
+
+		Сделать шиблонизатор элемента result по:
+		- Ширине input type=range
+		- Высоте input type=range
+		- Скругление углов input type=range
+		- Padding input type=range
+		- Цвету  input type=color
+
+		Список CSS свойств: https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Properties_Reference
+
+
+		Для выбора цвета необходимо сделать вот такой интерфейс:
+		https://s3.envato.com/files/230412754/screenshots/1.png
+
+		При клике на color_input стандартный инпут цвета не должен появлятся, а должно открыться окно 
+		как на макете выше. 
+		Дальше по клику на круг с цветом, должен изменится цвет блока result, а также цвет внутри 
+		самого элемента input.
+
+		Для рандомайза цвета, можно использовать функцию рандома цвета из первых занятий.
+
+	*/
+
+      document.addEventListener("DOMContentLoaded", function () {
+        const InputWidth = document.getElementById("width_input");
+        const InputHeight = document.getElementById("height_input");
+        const InputBorder = document.getElementById("border_input");
+        const InputPadding = document.getElementById("padding_input");
+        const InputColor = document.getElementById("color_input");
+        const Popup = document.getElementById("popup");
+        const Circles = Popup.querySelectorAll(".circle");
+
+        InputWidth.addEventListener("input", function (event) {
+          result.style.width = event.target.value + "px";
+        });
+
+        InputHeight.addEventListener("input", function (event) {
+          result.style.height = event.target.value + "px";
+        });
+
+        InputBorder.addEventListener("input", function (event) {
+          result.style.borderRadius = event.target.value + "px";
+        });
+
+        InputPadding.addEventListener("input", function (event) {
+          result.style.padding = event.target.value + "px";
+        });
+
+        InputColor.addEventListener("click", function (event) {
+          event.preventDefault();
+          Popup.style.display = "flex";
+          Circles.forEach((circle) => {
+            let randomColor = "#" + Math.floor(Math.random() * 16777215).toString(16);
+            circle.dataset.bgColor = randomColor;
+            circle.style.backgroundColor = randomColor;
+            circle.addEventListener("click", (event) => {
+              let chekedColor = event.target.style.backgroundColor;
+              result.style.backgroundColor = chekedColor;
+              InputColor.value = circle.dataset.bgColor;
+              Popup.style.display = "none";
+            });
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

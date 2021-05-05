@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Task 1 :: Lesson 7</title>
+  </head>
+  <body>
+    <div class="wrap"></div>
+    <script>
+      /*
+
+             	Задание:
+
+             	Написать функцию конструктор, которая будет иметь приватные и публичные свойства.
+             	Публичные методы должны вызывать приватные.
+
+             	Рассмотрим на примере планеты:
+
+             		- На вход принимаются параметр Имя планеты.
+
+             		Создается новый объект, который имеет публичные методы и свойства:
+             		- name (передается через конструктор)
+             		- population - результат вызова приватной функции randomPopulation
+             		- rotatePlanet(){
+             			let randomNumber = Math.floor(Math.random() * (1000) + 1;
+             			if ( (randomNumber % 2) == 0) {
+             				growPopulation();
+             			} else {
+             				Cataclysm();
+             			}
+             		}
+
+             		Приватное свойство:
+             		populationMultiplyRate - случайное число от 1 до 10;
+
+             		Приватные методы
+             		randomPopulation -> Возвращает случайное целое число от 1.000 до 10.000
+             		growPopulation() {
+             			Функция которая берет приватное свойство populationMultiplyRate
+             			которое равняется случайному числу от 1 до 10 и умножает его на 100.
+             			Дальше, число которое вышло добавляет к популяции и выводит в консоль сообщение,
+             			что за один цикл прибавилось столько населения на планете .
+             		}
+             		Cataclysm(){
+             			Рандомим число от 1 до 10 и умножаем его на 250;
+             			То число которое получили, отнимаем от популяции.
+             			В консоль выводим сообщение - от катаклизма погибло Х человек на планете.
+             		}
+
+             		let Mars = new Planet('Mars');
+             		Mars.rotatePlanet();
+             		Mars.rotatePlanet();
+             		Mars.rotatePlanet();
+             		Mars.rotatePlanet();
+             		Mars.rotatePlanet();
+             		Mars.rotatePlanet();
+             		Mars.rotatePlanet();
+             		Mars.rotatePlanet();
+             */
+      const minPopulation = 1000;
+      const maxPopulation = 10000;
+      const minPopulationMultiplyRate = 1;
+      const maxPopulationMultiplyRate = 10;
+
+      function Planet(name) {
+        this.name = name;
+        this.rotatePlanet =  () => {
+          let randomNumber = Math.floor(Math.random() * 1000 + 1);
+          if (randomNumber % 2 == 0) {
+            growPopulation();
+          } else {
+            cataclysm();
+          }
+        };
+
+        getRandomPopulation = (min, max) => {
+          return Math.floor(Math.random() * (max - min) + min);
+        };
+
+        populationMultiplyRate = (min, max) => {
+          return Math.floor(Math.random() * (max - min) + min);
+        };
+
+        population = getRandomPopulation(minPopulation, maxPopulation);
+
+        populationRate = populationMultiplyRate(
+          minPopulationMultiplyRate,
+          maxPopulationMultiplyRate
+        );
+
+        growPopulation =  () => {
+          const growPopulationResult = populationRate * 100;
+          console.log(`Популяция до прироста - ${population}`);
+          population += growPopulationResult;
+          console.log(`Популяция после прироста - ${population}`);
+          console.log(
+            `За один цыкл добавилось ${growPopulationResult} человек на планете`
+          );
+        };
+
+        cataclysm =  () => {
+          const cataclyzmPopulationResult = populationRate * 250;
+          console.log(`Популяция до катаклизма - ${population}`);
+          population -= cataclyzmPopulationResult;
+          console.log(`Популяция после катаклизма - ${population}`);
+          console.log(
+            `От катаклизма побибло  ${cataclyzmPopulationResult} человек на планете`
+          );
+        };
+      }
+
+      const Mars = new Planet("Mars");
+      Mars.rotatePlanet();
+    </script>
+  </body>
+</html>

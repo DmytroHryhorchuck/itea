@@ -1,0 +1,101 @@
+body{
+    padding: 10px;
+    font-size: 14px;
+    font-family: sans-serif;
+}
+
+.form{
+    width: 350px;
+    display: flex;
+    flex-direction: column;
+}
+
+.form__input{
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    padding: 10px 20px;
+    border-radius: 5px;
+    background: #eee;
+    border: 1px solid #414141;
+}
+
+.form__input.select:valid{
+    border: 1px solid black;
+    background-color: #eee;
+}
+
+.form__button{
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    background: #ffcc00;
+}
+.form__button:disabled{
+    background: #eee;
+    color: #414141;
+    cursor:no-drop
+}
+
+.valid,
+.form__input:valid{ 
+    border: 1px solid green; 
+    /* background-color: #caf8cc; */
+}
+
+.invalid,
+.form__input:invalid{ 
+    border: 1px solid red;
+    background-color: #ffaba5;
+}
+
+#colors{
+    width: 200px;
+
+    display: flex;
+    flex-wrap: wrap;
+}
+.result{
+    width: 50px;
+    background: gray;
+    box-sizing: border-box;
+    padding: 10px;
+}
+#MyValidateForm{
+    width: 350px;
+    display: flex;
+    flex-direction: column;
+}
+#MyValidateForm input{
+    margin-bottom: 10px;
+    box-sizing: border-box;
+    padding: 10px 20px;
+}
+.circle{
+    width: 30px;
+    height: 30px;
+    background: #eee;
+    border-radius: 50%;
+}
+#popup{
+    display: none;
+    width: 175px;
+    border: 20px solid grey;
+    border-radius: 10px;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 20px;
+    position: absolute;
+    top: 50px;
+    left: 565px;
+}
+h2{
+    width: 100%;
+}
+#color_input{
+    position: relative;
+}
+#result{
+    display: none;
+}

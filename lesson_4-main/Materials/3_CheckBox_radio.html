@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Checboxes and radio</title>
+    <script>
+    window.onload = function () {
+        var input = document.getElementById('myCheckbox');
+        console.log('input.checked', input.checked);
+        console.log('input.getAttribute', input.getAttribute('checked')); // Не надо так :(
+
+        var radio = document.getElementById('myRadio');
+        console.log('radio.checked', radio.checked);
+        console.log('radio.getAttribute', radio.getAttribute('checked')); // Не надо так :(
+    };
+    </script>
+</head>
+<body>
+    <input type="checkbox" id="myCheckbox" checked>
+    <input type="radio" id="myRadio">
+
+    <label id="check">
+        <h2>My Radio</h2>
+        <div class="radios">
+            <input class="_radio" type="radio" name="myradio" value="1-test">
+            <input class="_radio" type="radio" name="myradio" value="2-test">
+            <input class="_radio" type="radio" name="myradio" value="3-test">
+        </div>
+    </label>
+
+    <form>
+        <label>
+            <input class="_checkbox_limit" type="checkbox" name="mycheck" value="1"/>
+            <span> Value 1</span>
+        </label>
+        <label>
+            <input class="_checkbox_limit" type="checkbox" name="mycheck" value="2"/>
+            <span> Value 2</span>
+        </label>
+        <label>
+            <input class="_checkbox_limit" type="checkbox" name="mycheck" value="3"/>
+            <span> Value 3</span>
+        </label>
+        <label>
+            <input class="_checkbox_limit" type="checkbox" name="mycheck" value="4"/>
+            <span> Value 4</span>
+        </label>
+        <button> Send </button>
+    </form>
+
+    <form>
+        <label>
+            <input class="_checkbox_limit" type="checkbox" name="mycheck_2" value="1"/>
+            <span> Value 1</span>
+        </label>
+        <label>
+            <input class="_checkbox_limit" type="checkbox" name="mycheck_2" value="2"/>
+            <span> Value 2</span>
+        </label>
+        <label>
+            <input class="_checkbox_limit" type="checkbox" name="mycheck_2" value="3"/>
+            <span> Value 3</span>
+        </label>
+        <label>
+            <input class="_checkbox_limit" type="checkbox" name="mycheck_2" value="4"/>
+            <span> Value 4</span>
+        </label>
+        <button> Send </button>
+    </form>
+
+    <script>
+        function myClick(event){
+            console.log(event.target.value);
+        }
+
+        const check = document.querySelectorAll('._radio');
+        check.forEach( function( item ){
+            item.addEventListener('click', myClick);
+        });
+
+        const checkboxes = document.querySelectorAll('._checkbox_limit');
+        const LIMIT = 2;
+
+        checkboxes.forEach( function( input ){
+
+            input.addEventListener('click', function(e){
+                console.log('checkbox was changed', e.target.value);
+                const checked_elements = document.querySelectorAll('._checkbox_limit:checked');
+                if( checked_elements.length > LIMIT ){
+                    e.preventDefault();
+                }
+                // console.log('[checked_elements]', checked_elements );
+            });
+
+        });
+
+
+    </script>
+
+</body>
+</html>

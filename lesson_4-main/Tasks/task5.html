@@ -1,0 +1,211 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Lesson 4 :: Task 5</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="css/normalize.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"
+      integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-8">
+          <form id="form">
+            <div class="form-group">
+              <label for="name">Имя пользователя</label>
+              <input type="text" class="form-control" name="name" id="name" />
+            </div>
+
+            <div class="form-group">
+              <label for="email">Email</label>
+              <input
+                type="email"
+                class="form-control"
+                name="email"
+                id="email"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="password">Password</label>
+              <input
+                type="password"
+                class="form-control"
+                name="password"
+                id="password"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="water">Количество выпитых стаканов воды</label>
+              <input
+                type="number"
+                class="form-control"
+                name="water"
+                id="water"
+              />
+            </div>
+
+            <div class="form-group">
+              <label for="thanks">Спасибо за воду</label>
+              <input
+                type="text"
+                class="form-control"
+                name="thanks"
+                id="thanks"
+              />
+            </div>
+
+            <div class="checkbox">
+              <label>
+                <input type="checkbox" name="agree" />
+                <span> Принимаю соглашение </span>
+              </label>
+            </div>
+            <button type="submit" class="btn btn-default">Submit</button>
+            <button class="btn-validate">Validate</button>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      /*
+
+        Документация:
+        
+        https://developer.mozilla.org/ru/docs/HTML/HTML5/Constraint_validation
+        
+        form.checkValidity() > Проверка всех полей формы на валидость
+        form.reportValidity() > Проверяет все поля на валидность и выводит возле каждого из не прошедшего валидацию
+            сообщение с ошибкой
+
+        formElement.validity > Объект с параметрами валидности поля 
+        formElement.setCustomValidity(message) > Метод который задаст validity.valid = false, и при попытке отправки
+            сообщения выведет message в браузерный попал
+
+        Классы для стилизации состояния элемента
+        input:valid{}
+        input:invalid{}
+
+        Задание:
+        Используя браузерное API для валидации форм реализовать валидацию следующей формы:
+
+        - Имя пользователя: type:text -> validation: required; minlength = 2;  
+            Если пустое вывести сообщение: "Как тебя зовут?!"
+        - Email: type: email -> validation: required; minlength = 3; validEmail;
+            Если эмейл не валидный вывести сообщение "Без этого поля мы не сможем отправить тебе счет!"
+        - Пароль: type: password -> validation: required; minlength = 8; maxlength=16;
+            Если пустой вывести сообщение: "Я никому не скажу, напиши минимум 8 символов";
+        - Количество выпитых стаканов воды: type: number -> validation: required; minlength = 1; validNumber;
+            Если количество 0 вывести эррор с сообщением "Ну хоть покушай немного... Яблочки вкусные"
+        - Спасибо за воду: type: text -> validation: required; 
+            Если текст !== "спасибо" вывести эррор с сообщением "Нужно сказать спасибо!" используя setCustomValidity();
+        - Принимаю соглашение: type: checkbox -> validation: required;
+            Если не выбран, вывести эррор с сообщением: "Не можем продолжить без этого пункта :("
+
+        Внизу две кнопки:
+
+        1) Обычный submit который отправит форму, если она валидна.
+        2) Кнопка Validate(Проверить) которая запускает методы:
+            - yourForm.checkValidity: и выводит на страницу сообщение с результатом проверки
+            - yourForm.reportValidity: вызывает проверку всех правил и вывод сообщения с ошибкой, если такая есть
+
+    */
+      const form = document.getElementById("form");
+      const nameInput = document.getElementById("name");
+      const validateBtn = document.querySelector(".btn-validate");
+      const emailInput = document.getElementById("email");
+      const passwordInput = document.getElementById("password");
+      const water = document.getElementById('water');
+      const thanks = document.getElementById('thanks');
+      const agreeCheckBox = document.querySelector('[name="agree"]');
+
+      validateBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        form.checkValidity();
+        form.reportValidity();
+      });
+
+      nameInput.required = true;
+      nameInput.minLength = 2;
+      nameInput.addEventListener("change", (e) => {
+        e.preventDefault();
+        if (name.value === "") {
+          name.setCustomValidity("Как тебя зовут?");
+        }else {
+          namr.setCustomValidity("");
+        }
+      });
+
+      emailInput.required = true;
+      emailInput.minLength = 3;
+
+      emailInput.addEventListener("change", () => {
+        if (emailInput.validity.typeMismatch) {
+          emailInput.setCustomValidity(
+            "Без этого поля мы не сможем отправить тебе счет!"
+          );
+        } else {
+            emailInput.setCustomValidity("");
+        }
+      });
+
+      passwordInput.required = true;
+      passwordInput.minLength = 8;
+      passwordInput.maxLength = 16;
+
+      passwordInput.addEventListener("change", () => {
+        if (passwordInput.value == "") {
+            passwordInput.setCustomValidity(
+            "Я никому не скажу, напиши минимум 8 символов!"
+          );
+        } else {
+            passwordInput.setCustomValidity("");
+        }
+      });
+
+      water.required = true;
+      water.minLength = 1;
+
+      water.addEventListener("change", () => {
+        if (water.value == 0) {
+            water.setCustomValidity(
+                'Ну хоть покушай немного... Яблочки вкусные'
+          );
+        } else {
+            water.setCustomValidity("");
+        }
+      });
+
+      thanks.required = true;
+      thanks.addEventListener("change", () => {
+        if (thanks.value !== 'спасибо') {
+            thanks.setCustomValidity(
+                'Нужно сказать спасибо!'
+          );
+        } else {
+            thanks.setCustomValidity("");
+        }
+      });
+
+      agreeCheckBox.addEventListener("change", () => {
+        if (!agreeCheckBox.checked) {
+            agreeCheckBox.setCustomValidity(
+                'Не можем продолжить без этого пункта :('
+          );
+        } else {
+            agreeCheckBox.setCustomValidity("");
+        }
+      });
+     
+
+    </script>
+  </body>
+</html>

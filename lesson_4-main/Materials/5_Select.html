@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Select</title>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+
+        // const tryIt = document.getElementById("tryit");
+        // tryIt.addEventListener("click", function () {
+        //     const superSelect = document.getElementById("mySelect");
+        //     const mySelectlength = superSelect.length; // Получим количество опций
+        //     const mySelectValue = superSelect.value; // Выбранное значение
+
+        //     console.dir( superSelect );
+        //     console.log( mySelectValue );
+
+        //     document.getElementById("demo").innerHTML = "количество вариантов выбора - " + mySelectlength + ". Выбранное значени: " + mySelectValue;
+        // });
+
+        const mySelection = document.getElementById('mySelection');
+        const stars = ['Elijah Wood', 'Ian McKellen', 'Orlando Bloom','Ewan McGregor','Liam Neeson', 'Natalie Portman', 'Ewan McGregor', 'Billy Bob Thornton', 'Martin Freeman'];
+
+
+        const startOpt = new Option("Выберите актера", null, true, true);
+        startOpt.disabled = true;
+        mySelection.appendChild(startOpt);
+        console.log( startOpt );
+        
+        stars.forEach( function(item, index){
+
+            let selected = false;
+            let defSelected = false;
+
+            if( index === 2 ){
+              selected = true;
+              defSelected = true;
+            } 
+
+            let opt = new Option( item , index, selected, defSelected );
+            
+            mySelection.appendChild(opt);
+        });
+      
+
+        // function myOption(text, value){
+        //   var myOpt = document.createElement('option');
+        //       myOpt.value = value;
+        //       myOpt.innerText = text;
+        //       return myOpt;
+        // }
+        
+        // var opt = new Option('Mytext', 'Myvalue');
+        //     console.log('Option new:', opt);
+        
+        // var y = myOption('Mytext', 'Myvalue');
+        //     console.log('Option old:', y);
+        
+    });
+
+
+
+    // Конструктор опций
+    // new Option(text, value, defaultSelected, selected);
+    // defaultSelected = Селект выбран по умолчанию
+
+
+
+    </script>
+</head>
+<body>
+
+    <h3>A demonstration of how to access a SELECT element</h3>
+
+    <!-- <select id="mySelect">
+      <option value="apple">Яблоко</option>
+      <option>Груша</option>
+      <option>Банан</option>
+      <option>Панда</option>
+    </select>
+    <button id="tryit">Пробовать</button> -->
+
+
+  <select id="mySelection"></select>
+  <p id="demo"></p>
+
+</body>
+</html>

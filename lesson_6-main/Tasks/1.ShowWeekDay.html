@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>Classwork</title>
+</head>
+
+<body>
+    <header>
+        <input id="MyDateSelector" type="date" />
+        <button id="ShowDayButton">Показать день недели и месяц</button>
+    </header>
+    <div id="result"></div>
+    <script>
+        /*
+            Создайте функцию, которая по клику на "показать день и месяц" возвращает день недели и месяц для выбранной даты с инпута.
+            День нужно возвратить в div#result в текстовом формате т.е:
+            
+            - январь, понедельник, 
+            - февраль, вторник
+            - декабрь, суббота
+        */
+
+        const showDayButton = document.getElementById('ShowDayButton');
+        const myDateSelector = document.getElementById('MyDateSelector');
+        const result = document.getElementById('result');
+        const days = ["воскресенье", "понедельник", "вторник", "среда", "четверг", "пятница", "суббота"];
+        const months = ["январь", "февраль", "март", "апрель", "май", "июнь",
+            "июль", "август", "сентябрь", "октябрь", "ноябрь", "декабрь"
+        ];
+
+        showDayButton.addEventListener('click', () => {
+            const date = new Date(myDateSelector.value);
+            result.innerHTML = `- ${months[date.getMonth()]}, ${days[date.getDay()]}`
+        })
+    </script>
+</body>
+
+</html>

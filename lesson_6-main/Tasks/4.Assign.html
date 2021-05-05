@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Classwork</title>
+
+    <script>
+      /*
+      1. Используя интерфейс который есть на страничке, написать визуальный
+      конструктор объектов используя значение key-value, которые вводятся в
+      соответствующие поля в форме.
+
+      2. Каждый созданный объект выводить в тег code после добавления каждого
+      нового поля. Т.е мы должны визуально видеть в каком состоянии наши объекты
+      сейчас
+
+      3. По нажатию кнопки Combine Objects! два объекта должны объединиться
+      используя метод Object.assing или spread operator и вывести на страницу.
+
+      * Изменять HTML можно.
+
+    */
+    </script>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="assigned">
+        <form class="ObjForm">
+          <input name="key" placeholder="Enter your key" />
+          <input name="value" placeholder="Enter your value" />
+          <button type="submit">Send</button>
+        </form>
+        <div class="createResult">
+          <header>Created Object</header>
+          <div class="createdObj">
+            <code id="firstObj">
+              { "id":123, "b":"test", "demo":"test2" }
+            </code>
+          </div>
+        </div>
+      </div>
+
+      <div class="assigned">
+        <form class="ObjForm">
+          <input name="key" placeholder="Enter your key" />
+          <input name="value" placeholder="Enter your value" />
+          <button type="submit">Send</button>
+        </form>
+        <div class="createResult">
+          <header>Created Object</header>
+          <div class="createdObj">
+            <code id="secondObj">
+              { "id":123, "b":"test", "demo":"test2" }
+            </code>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="resultBlock">
+      <button id="combine">Combine Objects!</button>
+      <h3>Result:</h3>
+      <code id="result"></code>
+    </div>
+
+    <script>
+      const firstObjCode = document.getElementById("firstObj");
+      const secondObjCode = document.getElementById("secondObj");
+      const combine = document.getElementById("combine");
+      const result = document.getElementById("result");
+
+      const button = document.querySelectorAll(".ObjForm > button");
+      button.forEach((btn) => {
+        btn.addEventListener("click", (event) => {
+          event.preventDefault();
+          const key = event.target.parentNode.querySelector('input[name="key"]')
+            .value;
+          const value = event.target.parentNode.querySelector(
+            'input[name="value"]'
+          ).value;
+          const currentCode = event.target.parentNode.nextElementSibling.querySelector(
+            ".createdObj > code"
+          );
+          const currentObj = JSON.parse(currentCode.innerHTML);
+          currentObj[key] = value;
+          currentCode.innerHTML = JSON.stringify(currentObj);
+        });
+      });
+
+      combine.addEventListener("click", () => {
+        const firstObj = JSON.parse(firstObjCode.innerHTML);
+        const secondObj = JSON.parse(secondObjCode.innerHTML);
+        const combineObj = { ...firstObj, ...secondObj };
+        result.innerHTML = JSON.stringify(combineObj);
+      });
+    </script>
+    <style>
+      .wrap {
+        width: 100vw;
+        display: flex;
+        justify-content: space-between;
+      }
+      .ObjForm,
+      .resultBlock {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        box-sizing: border-box;
+        padding: 10px 20px;
+      }
+
+      .assigned {
+        width: 300px;
+        display: flex;
+      }
+      .createResult header {
+        font-weight: 700;
+      }
+    </style>
+  </body>
+</html>

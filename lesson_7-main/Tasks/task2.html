@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Task 2 :: Lesson 7</title>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <form id="form"></form>
+      </header>
+
+      <section>
+        <ul id="message_list"></ul>
+      </section>
+    </div>
+
+    <script>
+      /*
+             	Задание:
+
+             	Создать класс Message конструктор которого состоит из следующих полей:
+             	id -> [Timestamp]
+             	author -> [String]
+             	text -> [String]
+             	date -> [Date]
+             	answers -> [Array]
+
+             	У этого класса будет три метода:
+             	SkipMessage() -> должен найти сообщение по ID и удалить его из общего массива.
+             	AnswerMessage()-> должен открыть поле ввода, в который вы сможете ввести ответ\автора
+             	SendAnswer() -> метод который «отравляет» ответ, при этом обновляя поле ответа(answers) в вашем объекте с сообщением.
+
+             	В метод SendAnswer нужно передать объект класса Answer который наследуется от класса Message,
+             	Но еще дополнительно будет иметь поле parentId.
+
+
+             	Message {
+             		id: '',
+             		author: '',
+             		text: '',
+             		date: '',
+             		answers: [
+             			Answer {
+             				id: '',
+             				author: '',
+             				text: '',
+             				date: '',
+             				parentId: '',
+             				answers: []
+             			}
+             		]
+             	}
+
+             */
+
+      const form = document.getElementById("form");
+      function renderPage(node) {
+        node.innerHTML = ` <label for="author">
+            <span>Author</span>
+            <select name="author">
+              <option value="Taras Shevchenko">Taras Shevchenko</option>
+              <option value="Ivan Franko">Ivan Franko</option>
+              <option value="Vasyl Stys">Vasyl Stys</option>
+              <option value="Oles Gonchar">Oles Gonchar</option>
+            </select>
+          </label>
+
+          <label for="message">
+            <span>Message</span>
+            <textarea placeholder="Your Message" class="message"></textarea>
+          </label>
+
+          <button type="submit">Send Message</button>
+        <ul class='comments'></ul>
+        `;
+      }
+      renderPage(form);
+      const sendMessege = document.querySelector('button[type="submit"]');
+      const author = document.querySelector(`select[name="author"]`);
+      const message = document.querySelector(".message");
+      const message_list = document.getElementById("message_list");
+
+      let messages = [];
+      class Message {
+        constructor(autor, text) {
+          this.id = new Date().getTime();
+          this.autor = autor;
+          this.text = text;
+          this.date = new Date().toLocaleDateString();
+          this.answers = [];
+        }
+        skipMessage() {
+          messages = messages.filter((answer) => answer.id !== this.id);
+          message_list.innerHTML = "";
+          this.render(messages);
+        }
+        answerMessage(answersBlock) {
+          renderPage(answersBlock);
+          const send2Message = answersBlock.querySelector(
+            'button[type="submit"]'
+          );
+          send2Message.addEventListener("click", () => {
+            const autor = send2Message.parentElement.querySelector(
+              'select[name="author"]'
+            );
+            const text = send2Message.parentElement.querySelector(".message");
+            const newAnswer = new Answer(
+              autor.value,
+              text.value,
+              send2Message.parentElement.parentElement.dataset.id
+            );
+            this.sendAnswer(newAnswer, send2Message);
+          });
+        }
+        sendAnswer(answer, send2Message) {
+          messages.forEach((message) => {
+            if (message.id == answer.parentId) {
+              message.answers.push(answer);
+              Message.answers = messages;
+              answer.render(message.answers, send2Message);
+            }
+          });
+        }
+        render(arr, send2Message) {
+          arr.forEach((message) => {
+            let renderedComment = document.createElement("li");
+            renderedComment.setAttribute("data-id", message.id);
+            renderedComment.innerHTML = `
+            <div class="message__date">${message.date}</div>
+            <div class="message__author">
+              <b>${message.autor}</b>
+            </div>
+            <div class="message__text">${message.text}</div>
+            <div class="message__controls">
+              <button class="_skipMessage">Skip</button>
+              <button class="_answerMessage">Answer</button>
+            </div>
+            <ul class="answers"></ul>`;
+
+            if (arr[0].__proto__.constructor.name == "Message") {
+              message_list.appendChild(renderedComment);
+            } else if (arr[0].__proto__.constructor.name == "Answer") {
+              send2Message.nextElementSibling.appendChild(renderedComment);
+            }
+
+            const _skipMessage = renderedComment.querySelector("._skipMessage");
+            _skipMessage.addEventListener("click", () => {
+              message.skipMessage();
+            });
+            const _answerMessage = renderedComment.querySelector(
+              "._answerMessage"
+            );
+            _answerMessage.addEventListener("click", () => {
+              const answersBlock = renderedComment.querySelector(".answers");
+              message.answerMessage(answersBlock);
+            });
+          });
+        }
+      }
+
+      class Answer extends Message {
+        constructor(autor, text, parentId) {
+          super(autor, text);
+          this.parentId = parentId;
+        }
+      }
+
+      sendMessege.addEventListener("click", (event) => {
+        event.preventDefault();
+        let comment = new Message(author.value, message.value);
+        messages.push(comment);
+        message_list.innerHTML = "";
+        comment.render(messages);
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,39 @@
+img {
+  max-width: 270px;
+  border: 1px solid gray;
+  margin-right: 3px;
+}
+.showButton {
+  padding: 5px 20px;
+  background: #ffcc00;
+  border: none;
+}
+.window{
+  width: 200px;
+  height: 200px;
+  background: red;
+  transition: 1.3s;
+}
+.window.hide{opacity: 0;}
+.window.show{opacity: 1;}
+
+.base_block{
+  width: 200px;
+  height: 200px;
+  background: #eee;
+}
+
+.progress{
+  width: 100%;
+  height: 5px;
+  background: #eee;
+
+  margin-top: 5px;
+}
+
+.progress__bar{
+  width: 0%;
+  height: 5px;
+  background: green;
+  transition: 0.5s;
+}

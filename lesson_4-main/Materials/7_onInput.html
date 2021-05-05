@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>onInput</title>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+      /*
+          Constraint validation: https://developer.mozilla.org/ru/docs/HTML/HTML5/Constraint_validation
+          https://caniuse.com/#search=constraint%20validation
+      */
+      var input = document.getElementById("dataInput");
+      input.addEventListener("input", function () {  // измените на onchange
+
+          console.log( input.validity );
+          document.getElementById('result').innerHTML = input.value;
+
+          if( input.validity.tooShort ){
+            input.setCustomValidity('HELLO ITEA');
+          } else {
+            input.setCustomValidity('');
+          }
+
+      //     console.log( input.value );
+      });
+
+
+      // var dateTest = document.getElementById('date-test');
+      // dateTest.addEventListener('change', function( e ){
+      //   console.log( e.target.value );
+      // })
+    });
+
+    /*
+      field.validity
+    */
+  </script>
+</head>
+<body>
+
+    <style>
+        input{
+          outline: none;
+        }
+        input:valid{
+          border: 1px solid green;
+        }
+        input:invalid{
+          border: 1px solid red;
+        }
+    </style>
+    <form>
+        Введите дату:
+
+
+
+        <!-- <label>
+          Start Date: 
+          <input type="text" id="date-test" />
+        </label>
+        <input type="date"/>
+        <input type="time"/>
+        <input type="datetime-local"/>
+        <input type="week"/>
+        <input type="month"/> -->
+
+
+
+        <form>
+          <input 
+            required
+            maxlength="10"
+            minlength="5"
+            type="text" 
+            id="dataInput"
+          /> 
+          <!-- <input type="text" min="5" max="10" id="dataInput" /> -->
+          <button type="submit"> Submit </button>
+        </form>
+
+          <br>
+          oninput: <span id="result"></span>
+    </form>
+  
+</body>
+</html>

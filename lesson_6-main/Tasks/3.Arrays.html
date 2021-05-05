@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Classwork</title>
+  </head>
+
+  <body>
+    <script>
+      /*
+        Задание:
+        1. При помощи методов разобраных на занятии, переформатировать ITEA_COURSES в массив который содержит длину строк каждого из элементов.
+        2. Используя метод Array.sort. Отфильтровать массив ITEA_COURSES по длине строк. Вывести на страницу списком
+        3. Реализация функции поиска по массиву ITEA_COURSES. Вывести на страницу инпут и кнопку по которой будет срабатывать поиск.
+      */
+
+      const ITEA_COURSES = [
+        "Курс HTML & CSS",
+        "JavaScript базовый курс",
+        "JavaScript продвинутый курс",
+        "JavaScript Professional",
+        "Angular 2.4 (базовый)",
+        "Angular 2.4 (продвинутый)",
+        "React.js",
+        "React Native",
+        "Node.js",
+        "Vue.js",
+      ];
+
+      // Задание 1.1
+
+      let arrayLength = [];
+      ITEA_COURSES.forEach((element) => arrayLength.push(element.length));
+      console.log(arrayLength);
+
+      console.log(ITEA_COURSES.map((element) => element.length));
+
+      // Задание 1.2
+      const list = document.createElement("ul");
+      document.body.appendChild(list);
+
+      ITEA_COURSES.sort((a, b) => {
+        if (a.length > b.length) {
+          return 1;
+        }
+        if (a.length < b.length) {
+          return -1;
+        }
+
+        return 0;
+      });
+
+      ITEA_COURSES.forEach((el) => {
+        let item = document.createElement("li");
+        item.innerHTML = el;
+        list.appendChild(item);
+      });
+
+      // Задание 1.3
+
+      const input = document.createElement("input");
+      const button = document.createElement("button");
+
+      button.innerHTML = "Поиск";
+      document.body.appendChild(input);
+      document.body.appendChild(button);
+
+      button.addEventListener("click", () => {
+        let searchedWord = input.value;
+        ITEA_COURSES.forEach((item) => {
+          if (item.indexOf(searchedWord) !== -1) {
+            console.log(item);
+          }
+        });
+      });
+
+      /*
+        Задание 2:
+        Написать фильтр массива по:
+        Актеру, продолжительности
+
+        Бонус:
+          Сделать графическую оболочку для программы:
+          - Селект со списком актеров
+          - Селект или инпут с продолжительностью
+          - Результат в виде списка фильмов
+
+          <select> <input type="number" name="duration" > <button> find </button>
+      */
+
+      const stars = [
+        "Elijah Wood",
+        "Ian McKellen",
+        "Orlando Bloom",
+        "Ewan McGregor",
+        " Liam Neeson",
+        "Natalie Portman",
+        "Ewan McGregor",
+        "Billy Bob Thornton",
+        "Martin Freeman",
+      ];
+      const movies = [
+        {
+          name: "Lord of the Rigs",
+          duration: 240,
+          starring: ["Elijah Wood", "Ian McKellen", "Orlando Bloom"],
+        },
+        {
+          name: "Star Wars: Episode I - The Phantom Menace",
+          duration: 136,
+          starring: ["Ewan McGregor", " Liam Neeson", "Natalie Portman"],
+        },
+        {
+          name: "Fargo",
+          duration: 100,
+          starring: ["Ewan McGregor", "Billy Bob Thornton", "Martin Freeman"],
+        },
+        {
+          name: "V for Vendetta",
+          duration: 150,
+          starring: ["Hugo Weaving", "Natalie Portman", "Rupert Graves"],
+        },
+      ];
+
+      const filmsblock = document.createElement("div");
+      filmsblock.innerHTML = `<select id="selectActors"></select> <button id="searchActorBtn">Search</button>
+       <select id="selectDuration"></select> <button id="searchDurationBtn">Search</button> <ul id="result"></ul>`;
+      document.body.appendChild(filmsblock);
+
+      const selectActors = document.getElementById("selectActors");
+      const selectDuration = document.getElementById("selectDuration");
+      const resultUl = document.getElementById("result");
+      const searchActorBtn = document.getElementById("searchActorBtn");
+      const searchDurationBtn = document.getElementById("searchDurationBtn");
+
+      stars.forEach((actor) => {
+        const option = document.createElement("option");
+        option.value = actor;
+        option.innerHTML = actor;
+        selectActors.appendChild(option);
+      });
+
+      let moviesArr = [];
+      movies.forEach((movie) => {
+        moviesArr.push(movie.duration);
+        moviesArr.sort();
+      });
+
+      moviesArr.forEach((movie) => {
+        const option = document.createElement("option");
+        option.value = movie;
+        option.innerHTML = movie;
+        selectDuration.appendChild(option);
+      });
+
+      function renderList(result) {
+        resultUl.innerHTML = "";
+        result.forEach((el) => {
+          let li = document.createElement("li");
+          li.innerHTML = el.name;
+          resultUl.appendChild(li);
+        });
+      }
+
+      searchActorBtn.addEventListener("click", () => {
+        let actor = selectActors.value;
+        const result = movies.filter(
+          // (movie) => movie.starring.indexOf(actor) !== -1
+          (movie) => movie.starring.includes(actor)
+        );
+        renderList(result);
+      });
+
+      searchDurationBtn.addEventListener("click", () => {
+        let duration = selectDuration.value;
+        const result = movies.filter((movie) => movie.duration <= duration);
+        renderList(result);
+      });
+    </script>
+  </body>
+</html>

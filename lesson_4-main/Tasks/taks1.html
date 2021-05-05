@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Lesson 4 :: Task 1</title>
+
+  <link rel="stylesheet" href="css/normalize.css" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+
+<body>
+  <form id="ValidationForm" class="form">
+    <input class="form__input" type="text" name="login" placeholder="Ваш логин" />
+    <input class="form__input" type="password" name="password" placeholder="Ваш пароль" />
+    <input class="form__input" type="password" name="password_confirm" placeholder="Повторите пароль" />
+    <label for="agree">
+      <span>Вы согласны с лицензионым соглашением.</span>
+      <input type="checkbox" id="agree" />
+    </label>
+    <button class="form__button" type="submit" id="submit" disabled>
+      Отправить
+    </button>
+  </form>
+
+  <script>
+    /*
+		Задание:
+
+			Использую кастомную валидацию (Не используя Constraint Validation API) 
+			сделать валидацию формы по следующим правилам:
+
+			1. Логин / Пароль не может быть пустым
+			2. Пароли должны совпадть
+			3. Пока не стоит что юзер согласен с лиц. соглашением - кнопка отправки не активна
+
+			Валидным полям нужно добавить класс valid, полям с ошибкой нужно добавить класс invalid
+	*/
+
+    document.addEventListener("DOMContentLoaded", function () {
+
+      const form = document.getElementById("ValidationForm");
+      const loginInput = form.querySelector(".form__input[name = 'login']");
+      const passwordInput = form.querySelector(".form__input[name = 'password']");
+      const passwordConfirmInput = form.querySelector(".form__input[name = 'password_confirm']");
+      const agreeCheckbox = document.getElementById("agree");
+      const submitBtn = document.getElementById("submit");
+
+      loginInput.addEventListener("change", () => {
+        if (loginInput.value !== "") {
+          loginInput.classList.remove("invalid");
+          loginInput.classList.add("valid");
+        } else {
+          loginInput.classList.remove("valid");
+          loginInput.classList.add("invalid");
+        }
+      });
+
+      passwordConfirmInput.addEventListener("change", () => {
+        if (passwordInput.value === passwordConfirmInput.value) {
+          passwordConfirmInput.classList.remove("invalid");
+          passwordConfirmInput.classList.add("valid");
+        } else {
+          passwordConfirmInput.classList.remove("valid");
+          passwordConfirmInput.classList.add("invalid");
+        }
+      });
+
+      agreeCheckbox.addEventListener("change", function () {
+        if (agreeCheckbox.checked) {
+          submitBtn.disabled = false;
+        } else {
+          submitBtn.disabled = true;
+        }
+      });
+
+      submitBtn.addEventListener('click', function (event) {
+        if (loginInput.classList.contains('invalid') || passwordConfirmInput.classList.contains('invalid')) {
+          event.preventDefault()
+        }
+      })
+    });
+  </script>
+</body>
+
+</html>

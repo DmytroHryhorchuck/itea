@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Lesson 4 :: Task 3</title>
+
+    <link rel="stylesheet" href="css/normalize.css" />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <select class="form__input select" id="countries"></select>
+    <div id="result"></div>
+
+    <script>
+      /*
+		Задание 3:
+
+		1. Сгенерировать список стран в Select countries
+		2. При выборе страны генерировать еще один Select со списком
+		городов этой страны и вывести этот селект в блок result
+		3. При выборе города нужно случайно рандомить температуру от
+		-10 градусов до +40. Если температура
+
+		-10 до 0 то 'Солнечно' 'Легкий снегопад' 'Сильный снегопад'
+		0 до 30 то  'Солнечно' 'Дождь' 'Ветер' 'Сильный дождь'
+		30 до 40 то 'Солнечно' 'Засуха' 'Ветер'
+
+		4. Вывести сообщение на страничку
+		{Country}. В {City} {Weather} {Temperature} градусов.
+		Ukraine. В Kyiv Солнечно -10 градусов
+
+		+ бонус: добавить красивые картинки с погодой
+	*/
+      document.addEventListener("DOMContentLoaded", function () {
+
+		const selectCountries = document.getElementById("countries");
+        const result = document.getElementById("result");
+
+        let countries = ["Select country", "Ukraine", "Poland", "USA"];
+        let ukraineCity = ["Select city", "Kyiv", "Lviv", "Odesa", "Charkiv"];
+        let polandCity = ["Select city", "Warszawa", "Poznan", "Krakow", "Katowice"];
+        let usaCity = ["Select city", "New York", "Los Angeles", "Las Vegas","Chicago",];
+
+        let countyObj = {
+          Ukraine: ukraineCity,
+          Poland: polandCity,
+          USA: usaCity,
+        };
+
+        let weatherObj = {
+          coldWeather: ["Солнечно", "Легкий снегопад", "Сильный снегопад"],
+          mediumWeather: ["Солнечно", "Дождь", "Ветер", "Сильный дождь"],
+          hotWeather: ["Солнечно", "Засуха", "Ветер"],
+        };     
+
+		const renderCountry = (country) => {
+          countries.forEach((country, index) => {
+            let option = new Option();
+            option.value = country;
+            option.innerHTML = country;
+            selectCountries.appendChild(option);
+            selectCountries[0].disabled = "true";
+          });
+        }
+
+        const renderOnInit = () => {
+          renderCountry(countries.value);
+        }
+
+        renderOnInit();
+
+        const renderCity = (country) => {
+          result.innerHTML = "";
+          let cities = document.createElement("select");
+          countyObj[country].forEach((city) => {
+            let option = new Option();
+            option.value = city;
+            option.innerHTML = city;
+            cities.appendChild(option);
+            result.appendChild(cities);
+            cities[0].disabled = "true";
+            result.style.display = "block";
+          });
+          getCitiesTemperature(country, cities);
+        }
+
+        selectCountries.addEventListener("change", () => {
+          renderCity(selectCountries.value);
+        });
+
+        const getTemperarure = (min, max) => {
+          return Math.round(Math.random() * (max - min) + min);
+        }
+
+        const getCitiesTemperature = (country, cities) => {
+          cities.addEventListener("change", () => {
+            let curentTemperature = getTemperarure(-10, 40);
+            sendWeatherMessage(country, cities, curentTemperature, weatherObj);
+          });
+        }
+
+		const createWeatherMessage = (country, cities, curentTemperature, weatherObj) =>{
+			let messege = weatherObj[Math.floor(Math.random() * weatherObj.length)];
+            alert(`In ${country} in ${cities.value} today - ${messege}, ${curentTemperature} degrees.`);
+		}
+
+        const sendWeatherMessage = (country, cities, curentTemperature, weatherObj) => {
+          if (curentTemperature >= -10 && curentTemperature <= 0) {
+            createWeatherMessage (country, cities, curentTemperature, weatherObj.coldWeather)
+          } 
+		  else if (curentTemperature > 0 && curentTemperature < 30) {
+            createWeatherMessage (country, cities, curentTemperature, weatherObj.mediumWeather)
+          } 
+		  else if (curentTemperature >= 30 && curentTemperature <= 40) {
+			createWeatherMessage (country, cities, curentTemperature, weatherObj.hotWeather)
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
