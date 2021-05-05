@@ -37,23 +37,22 @@
         constructor(name, spells) {
           this.name = name;
           this.spells = spells;
-          Object.defineProperty(SuperDude, "name", { writable: false });
         }
-
+        
         Invisibility() {
-          console.log(this.spells[0].spell());
+          console.log(this.spells[0].spell.apply(this));
         }
         superSpeed() {
-          console.log(this.spells[1].spell());
+          console.log(this.spells[1].spell.apply(this));
         }
         superSight() {
-          console.log(this.spells[2].spell());
+          console.log(this.spells[2].spell.apply(this));
         }
         superFroze() {
-          console.log(this.spells[3].spell());
+          console.log(this.spells[3].spell.apply(this));
         }
         superSkin() {
-          console.log(this.spells[4].spell());
+          console.log(this.spells[4].spell.apply(this));
         }
       }
 
@@ -91,14 +90,17 @@
       ];
 
       let Luther = new SuperDude("Luther", superPowers);
-      //   Object.defineProperty(Luther, "name", {
-      //     writable: false,
-      //   });
+
+        Object.defineProperty(Luther, "name", {
+          writable: false,
+        });
+
       Luther.Invisibility();
       Luther.superSpeed();
       Luther.superSight();
       Luther.superFroze();
       Luther.superSkin();
+
     </script>
   </body>
 </html>
