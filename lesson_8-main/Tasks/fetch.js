@@ -5,16 +5,16 @@ fetch('http://www.json-generator.com/api/json/get/cgwbLkTxnS?indent=2')
   .then((data) => {
     return data[Math.floor(Math.random()*data.length)];
   })
-  .then((data2) => {
-    return data2})
+  .then((man) => {
+    return man})
     .then(
-      data2 => {
+      man => {
         return fetch('http://www.json-generator.com/api/json/get/bTBBXQabKG?indent=2')
           .then(
-            response2 => {
-          return response2.json()
-            }).then((data) => {
-              console.log(data2, data )
+            freands => {
+          return freands.json()
+            }).then((freands) => {
+              console.log(man, freands )
             })
       }
     )
