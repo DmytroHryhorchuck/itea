@@ -1,4 +1,28 @@
+fetch('http://www.json-generator.com/api/json/get/cgwbLkTxnS?indent=2')
+  .then((response1) => {
+    return response1.json();
+  })
+  .then((data) => {
+    return data[Math.floor(Math.random()*data.length)];
+  })
+  .then((data2) => {
+    return data2})
+    .then(
+      data2 => {
+        return fetch('http://www.json-generator.com/api/json/get/bTBBXQabKG?indent=2')
+          .then(
+            response2 => {
+          return response2.json()
+            }).then((data) => {
+              console.log(data2, data )
+            })
+      }
+    )
+   
+
+
 /*
+
   Задача:
 
   1. При помощи fetch получить данные:
@@ -9,6 +33,7 @@
   4. Сделать дополнительный запрос на получение списка друзей человека
     http://www.json-generator.com/api/json/get/bTBBXQabKG?indent=2
     И дальше передать обьект:
+
       {
         name: userName,
         company: userCompany,
