@@ -1,5 +1,21 @@
-function responsToJson (respons) {
+const responsToJson = (respons) => {
 return respons.json();
+}
+
+const getAndRenderObj = (response1, response2) => {
+  const manObj = {
+    name: response1.name,
+    company: response1.company,
+    gender: response1.gender,
+    friends: response2[0].friends
+   }
+   let man = document.createElement('div');
+   man.innerHTML = `1. Name - ${manObj.name} <br> 2. Company - ${manObj.company} <br> 3. Gender - ${manObj.gender} <br> 4. Friends: - ${manObj.friends.map(friend => ` ${friend.name}`)}`
+   document.body.appendChild(man)
+}
+
+const getRandomMan = (response) => {
+  return response[Math.floor(Math.random()*response.length)];
 }
 
 fetch('http://www.json-generator.com/api/json/get/cgwbLkTxnS?indent=2')
@@ -7,7 +23,7 @@ fetch('http://www.json-generator.com/api/json/get/cgwbLkTxnS?indent=2')
    return responsToJson(response1)
   })
   .then((response1) => {
-    return response1[Math.floor(Math.random()*response1.length)];
+    return getRandomMan(response1)
   })
   .then((response1) => {
     return response1})
@@ -18,15 +34,7 @@ fetch('http://www.json-generator.com/api/json/get/cgwbLkTxnS?indent=2')
             response2 => {
               return responsToJson(response2)
             }).then((response2) => {
-              const manObj = {
-               name: response1.name,
-               company: response1.company,
-               gender: response1.gender,
-               friends: response2[0].friends
-              }
-              let man = document.createElement('div');
-              man.innerHTML = `1. Name - ${manObj.name} <br> 2. Company - ${manObj.company} <br> 3. Gender - ${manObj.gender} <br> 4. Friends: - ${manObj.friends.map(friend => ` ${friend.name}`)}`
-              document.body.appendChild(man)
+              getAndRenderObj(response1, response2)
             })
       }
     )
