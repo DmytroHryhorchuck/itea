@@ -65,12 +65,10 @@
               <option value="Oles Gonchar">Oles Gonchar</option>
             </select>
           </label>
-
           <label for="message">
             <span>Message</span>
             <textarea placeholder="Your Message" class="message"></textarea>
           </label>
-
           <button type="submit">Send Message</button>
         <ul class='comments'></ul>
         `;
@@ -97,32 +95,36 @@
         }
         answerMessage(answersBlock) {
           renderPage(answersBlock);
-          const send2Message = answersBlock.querySelector(
+          const send2Message = answersBlock.querySelectorAll(
             'button[type="submit"]'
           );
-          send2Message.addEventListener("click", () => {
-            const autor = send2Message.parentElement.querySelector(
+
+          send2Message.forEach((btn)=>{
+            btn.addEventListener("click", () => {
+            const autor = btn.parentElement.querySelector(
               'select[name="author"]'
             );
-            const text = send2Message.parentElement.querySelector(".message");
+            const text = btn.parentElement.querySelector(".message");
             const newAnswer = new Answer(
               autor.value,
               text.value,
-              send2Message.parentElement.parentElement.dataset.id
+              btn.parentElement.parentElement.dataset.id
             );
-            this.sendAnswer(newAnswer, send2Message);
+            this.sendAnswer(newAnswer, btn);
           });
+          }) 
         }
-        sendAnswer(answer, send2Message) {
+        sendAnswer(answer, btn) {
           messages.forEach((message) => {
             if (message.id == answer.parentId) {
               message.answers.push(answer);
               Message.answers = messages;
-              answer.render(message.answers, send2Message);
+              btn.nextElementSibling.innerHTML = '';
+              answer.render(message.answers, btn);
             }
           });
         }
-        render(arr, send2Message) {
+        render(arr, btn) {
           arr.forEach((message) => {
             let renderedComment = document.createElement("li");
             renderedComment.setAttribute("data-id", message.id);
@@ -138,23 +140,24 @@
             </div>
             <ul class="answers"></ul>`;
 
-            if (arr[0].__proto__.constructor.name == "Message") {
+            if (arr[0].__proto__.constructor.name === "Message") {
               message_list.appendChild(renderedComment);
-            } else if (arr[0].__proto__.constructor.name == "Answer") {
-              send2Message.nextElementSibling.appendChild(renderedComment);
-            }
-
-            const _skipMessage = renderedComment.querySelector("._skipMessage");
-            _skipMessage.addEventListener("click", () => {
+            } else if (arr[0].__proto__.constructor.name === "Answer") {
+              btn.nextElementSibling.appendChild(renderedComment);
+              }
+            const _skipMessage = renderedComment.querySelectorAll("._skipMessage");
+            _skipMessage.forEach((btn)=>{
+              btn.addEventListener("click", () => {
               message.skipMessage();
             });
-            const _answerMessage = renderedComment.querySelector(
-              "._answerMessage"
-            );
-            _answerMessage.addEventListener("click", () => {
+            })
+            const _answerMessage = renderedComment.querySelectorAll("._answerMessage");
+            _answerMessage.forEach((btn)=>{
+              btn.addEventListener("click", () => {
               const answersBlock = renderedComment.querySelector(".answers");
               message.answerMessage(answersBlock);
             });
+            })
           });
         }
       }
