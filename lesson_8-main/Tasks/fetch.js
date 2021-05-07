@@ -1,20 +1,32 @@
+function responsToJson (respons) {
+return respons.json();
+}
+
 fetch('http://www.json-generator.com/api/json/get/cgwbLkTxnS?indent=2')
   .then((response1) => {
-    return response1.json();
+   return responsToJson(response1)
   })
-  .then((data) => {
-    return data[Math.floor(Math.random()*data.length)];
+  .then((response1) => {
+    return response1[Math.floor(Math.random()*response1.length)];
   })
-  .then((man) => {
-    return man})
+  .then((response1) => {
+    return response1})
     .then(
-      man => {
+      response1 => {
         return fetch('http://www.json-generator.com/api/json/get/bTBBXQabKG?indent=2')
           .then(
-            freands => {
-          return freands.json()
-            }).then((freands) => {
-              console.log(man, freands )
+            response2 => {
+              return responsToJson(response2)
+            }).then((response2) => {
+              const manObj = {
+               name: response1.name,
+               company: response1.company,
+               gender: response1.gender,
+               friends: response2[0].friends
+              }
+              let man = document.createElement('div');
+              man.innerHTML = `1. Name - ${manObj.name} <br> 2. Company - ${manObj.company} <br> 3. Gender - ${manObj.gender} <br> 4. Friends: - ${manObj.friends.map(friend => ` ${friend.name}`)}`
+              document.body.appendChild(man)
             })
       }
     )
